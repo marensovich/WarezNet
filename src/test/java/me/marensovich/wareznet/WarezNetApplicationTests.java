@@ -1,10 +1,10 @@
-package me.marensovich.backendsoft;
+package me.marensovich.wareznet;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackendSoftApplicationTests {
+class WarezNetApplicationTests {
 
     @Test
     void contextLoads() {

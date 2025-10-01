@@ -1,13 +1,13 @@
-package me.marensovich.backendsoft;
+package me.marensovich.wareznet;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BackendSoftApplication {
+public class WarezNetApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BackendSoftApplication.class, args);
+        SpringApplication.run(WarezNetApplication.class, args);
     }
 
 }
