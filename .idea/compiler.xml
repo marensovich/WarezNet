@@ -8,7 +8,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.5.6/4ba6e02d49cd0e963fa1c4a95b875abf083606fe/spring-boot-configuration-processor-3.5.6.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.40/398c6d2d7c42c96b65e78d2ddc9be0058c163453/lombok-1.18.40.jar" />
         </processorPath>
-        <module name="me.marensovich.backendSoft.main" />
+        <module name="WarezNet.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="21" />
