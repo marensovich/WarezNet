@@ -4,6 +4,8 @@ import me.marensovich.wareznet.database.models.FileDescription;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface FileDescriptionRepository extends JpaRepository<FileDescription, Long> {
+public interface FileDescriptionRepository extends JpaRepository<FileDescription, UUID> {
 }

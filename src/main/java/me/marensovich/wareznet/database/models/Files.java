@@ -32,6 +32,9 @@ public class Files {
     @Column(name = "`release`",  nullable = false, updatable = false)
     private String release;
 
+    @Column(name = "path",  nullable = false, updatable = false)
+    private String path;
+
     @Column(name = "timeAdded",  nullable = false,  updatable = false)
     private LocalDateTime timeAdded = LocalDateTime.now();
 
