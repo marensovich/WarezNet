@@ -12,10 +12,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/WarezNet-BackEnd" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/backend" />
+            <option value="$PROJECT_DIR$/WarezNet-BackEnd" />
           </set>
         </option>
       </GradleProjectSettings>
