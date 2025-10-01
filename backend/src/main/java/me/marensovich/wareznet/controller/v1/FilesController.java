@@ -34,7 +34,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/files")
 public class FilesController {
     @Autowired private FileService fileService;
-    private IconService iconService;
+    @Autowired private IconService iconService;
 
 
     /**
@@ -49,7 +49,7 @@ public class FilesController {
             @RequestParam("categoryid") UUID categoryId,
             @RequestParam("release") String release,
             @RequestParam("name") String name,
-            @RequestParam("description") String desctiprion,
+            @RequestParam("description") String description,
             @RequestParam("fileIcon") MultipartFile fileIcon
     ) {
         var iconPath = iconService.uploadIcon(fileIcon);
@@ -59,7 +59,7 @@ public class FilesController {
                 categoryId,
                 release,
                 name,
-                desctiprion,
+                description,
                 iconPath
         );
 
