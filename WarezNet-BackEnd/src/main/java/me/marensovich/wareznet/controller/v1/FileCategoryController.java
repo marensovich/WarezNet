@@ -30,7 +30,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/category")
 public class FileCategoryController {
-    @Autowired private FileCategoryRepository fileCategoryRepository;
     @Autowired private FileCategoryService fileCategoryService;
 
 

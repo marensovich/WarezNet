@@ -24,10 +24,22 @@ public class FileTypesService {
         return fileTypesRepository.findAll();
     }
 
+    public FileTypes getFileType(UUID id){
+        return fileTypesRepository.findById(id).get();
+    }
+
     public void deleteFileType(UUID id){
         if (!fileTypesRepository.existsById(id)) {
             throw new FileTypeNotFound("File type not found with UUID: " + id);
         }
         fileTypesRepository.deleteById(id);
+    }
+
+    public FileTypes updateFileType(UUID id, String name){
+        FileTypes fileTypes = fileTypesRepository.findById(id).orElseThrow(
+                () -> new FileTypeNotFound("File type not found with UUID: " + id)
+        );
+        fileTypes.setName(name);
+        return fileTypesRepository.save(fileTypes);
     }
 }
