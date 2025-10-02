@@ -2,6 +2,7 @@ package me.marensovich.wareznet.service;
 
 import me.marensovich.wareznet.database.models.FileCategory;
 import me.marensovich.wareznet.database.repository.FileCategoryRepository;
+import me.marensovich.wareznet.exception.exceptions.FileCategoryNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,16 @@ public class FileCategoryService {
         return fileCategoryRepository.findAll();
     }
 
+    public FileCategory getFileCategoryById(UUID id){
+        return fileCategoryRepository.findById(id).orElseThrow(
+                () -> new FileCategoryNotFound("File category not found with UUID: " + id)
+        );
+    }
+
     public void deleteCategory(UUID uuid){
+        if (!fileCategoryRepository.existsById(uuid)) {
+            throw new FileCategoryNotFound("File category not found with UUID: " + uuid);
+        }
         fileCategoryRepository.deleteById(uuid);
     }
 

@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletRequest;
 import me.marensovich.wareznet.config.TelegramNotifier.TelegramBotNotifier;
+import me.marensovich.wareznet.exception.exceptions.FileCategoryNotFound;
 import me.marensovich.wareznet.exception.exceptions.FileNotFoundException;
+import me.marensovich.wareznet.exception.exceptions.FileTypeNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,6 +99,35 @@ public class GlobalExceptionHandler {
     ) {
         return buildErrorResponse(e, HttpStatus.NOT_FOUND, req);
     }
+
+    /**
+     * Handles {@link FileCategoryNotFound}.
+     *
+     * @return 404 Not Found
+     * @since v.0.1
+     */
+    @ExceptionHandler(FileCategoryNotFound.class)
+    public ResponseEntity<ApiError> handleFileCategoryNotFound(
+            FileCategoryNotFound e,
+            HttpServletRequest req
+    ) {
+        return buildErrorResponse(e, HttpStatus.NOT_FOUND, req);
+    }
+
+    /**
+     * Handles {@link FileTypeNotFound}.
+     *
+     * @return 404 Not Found
+     * @since v.0.1
+     */
+    @ExceptionHandler(FileTypeNotFound.class)
+    public ResponseEntity<ApiError> handleFileTypeNotFound(
+            FileTypeNotFound e,
+            HttpServletRequest req
+    ) {
+        return buildErrorResponse(e, HttpStatus.NOT_FOUND, req);
+    }
+
 
     /**
      * Handles all unhandled exceptions.

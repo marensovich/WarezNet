@@ -2,6 +2,7 @@ package me.marensovich.wareznet.service;
 
 import me.marensovich.wareznet.database.models.FileTypes;
 import me.marensovich.wareznet.database.repository.FileTypesRepository;
+import me.marensovich.wareznet.exception.exceptions.FileTypeNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,9 @@ public class FileTypesService {
     }
 
     public void deleteFileType(UUID id){
+        if (!fileTypesRepository.existsById(id)) {
+            throw new FileTypeNotFound("File type not found with UUID: " + id);
+        }
         fileTypesRepository.deleteById(id);
     }
 }
