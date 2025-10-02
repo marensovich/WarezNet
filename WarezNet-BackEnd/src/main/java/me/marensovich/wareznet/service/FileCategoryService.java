@@ -14,7 +14,7 @@ public class FileCategoryService {
 
     @Autowired private FileCategoryRepository fileCategoryRepository;
 
-    public FileCategory createdFileCategory(String name){
+    public FileCategory createFileCategory(String name){
         FileCategory fileCategory = new FileCategory();
         fileCategory.setName(name);
 
@@ -38,4 +38,9 @@ public class FileCategoryService {
         fileCategoryRepository.deleteById(uuid);
     }
 
+    public FileCategory updateFileCategory(UUID uuid, String name) {
+        FileCategory fileCategory = getFileCategoryById(uuid);
+        fileCategory.setName(name);
+        return fileCategoryRepository.save(fileCategory);
+    }
 }

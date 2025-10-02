@@ -1,16 +1,17 @@
 package me.marensovich.wareznet.controller.v1;
 
+import me.marensovich.wareznet.controller.v1.requests.UpdateCategoryRequest;
 import me.marensovich.wareznet.database.models.FileCategory;
 import me.marensovich.wareznet.database.repository.FileCategoryRepository;
+import me.marensovich.wareznet.controller.v1.requests.CreateCategoryRequest;
 import me.marensovich.wareznet.service.FileCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -41,6 +42,28 @@ public class FileCategoryController {
     @GetMapping("/get/{id}")
     public ResponseEntity<FileCategory> getFileCategoryById(@PathVariable UUID id) {
         return ResponseEntity.ok(fileCategoryService.getFileCategoryById(id));
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<FileCategory> createFileCategory(@RequestBody CreateCategoryRequest request) {
+        if (request.getName() == null || request.getName().isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(fileCategoryService.createFileCategory(request.getName()));
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<FileCategory> updateFileCategory(@RequestBody UpdateCategoryRequest request) {
+        if (request.getName() == null || request.getName().isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(fileCategoryService.updateFileCategory(request.getUuid(), request.getName()));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteFileCategory(@RequestBody UUID uuid) {
+        fileCategoryService.deleteCategory(uuid);
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "Successfully deleted"));
     }
 
 }
