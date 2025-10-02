@@ -1,6 +1,5 @@
 package me.marensovich.wareznet.service;
 
-
 import me.marensovich.wareznet.database.models.FileCategory;
 import me.marensovich.wareznet.database.models.FileDescription;
 import me.marensovich.wareznet.database.models.FileTypes;
@@ -12,11 +11,22 @@ import me.marensovich.wareznet.database.repository.FilesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
- * The type File service.
+ * Service class responsible for file-related operations.
+ *
+ * <p>This service provides logic for:
+ * <ul>
+ *     <li>Uploading new files</li>
+ *     <li>Fetching file names by IDs</li>
+ *     <li>Retrieving files grouped by type</li>
+ * </ul>
+ *
+ * @author marensovich
+ * @version v.0.1
+ * @since v.0.1
  */
 @Service
 public class FileService {
@@ -26,7 +36,13 @@ public class FileService {
     @Autowired private FileTypesRepository fileTypesRepository;
     @Autowired private FileCategoryRepository fileCategoryRepository;
 
-
+    /**
+     * Retrieves file names mapped to their IDs.
+     *
+     * @param IDs a comma-separated string of UUIDs
+     * @return a map where keys are string representations of IDs and values are corresponding file names
+     * @since v.0.1
+     */
     public Map<String, String> getFileNameWithID(String IDs) {
         Map<String, String> files = new HashMap<>();
         for (String ID : IDs.split(",")) {
@@ -44,6 +60,19 @@ public class FileService {
         return files;
     }
 
+    /**
+     * Uploads a new file and stores it in the database.
+     *
+     * @param typeId      the UUID of the file type
+     * @param categoryId  the UUID of the file category
+     * @param release     the release version/date of the file
+     * @param name        the file name
+     * @param description the description of the file
+     * @param fileIcon    the path to the file icon
+     * @return the newly created {@link Files} entity
+     * @throws IllegalArgumentException if the type or category does not exist
+     * @since v.0.1
+     */
     public Files uploadFile(UUID typeId,
                             UUID categoryId,
                             String release,
@@ -51,7 +80,7 @@ public class FileService {
                             String description,
                             String fileIcon) {
 
-        //TODO: Убрать заглушку
+        //TODO: убрать заглушку, когда появится логика сохранения файлов
         String path = "";
 
         Files newFile = new Files();
@@ -75,5 +104,18 @@ public class FileService {
         newFile.setCategory(category);
 
         return filesRepository.save(newFile);
+    }
+
+    /**
+     * Retrieves all files grouped by their type.
+     *
+     * @return a map where keys are type names and values are lists of files belonging to that type
+     * @since v.0.1
+     */
+    public Map<String, List<Files>> getAllFilesGroupedByType() {
+        List<Files> allFiles = filesRepository.findAll();
+
+        return allFiles.stream()
+                .collect(Collectors.groupingBy(file -> file.getType().getName()));
     }
 }
