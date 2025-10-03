@@ -8,9 +8,12 @@ import me.marensovich.wareznet.database.repository.FileCategoryRepository;
 import me.marensovich.wareznet.database.repository.FileDescriptionRepository;
 import me.marensovich.wareznet.database.repository.FileTypesRepository;
 import me.marensovich.wareznet.database.repository.FilesRepository;
+import me.marensovich.wareznet.exception.exceptions.FileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -117,5 +120,30 @@ public class FileService {
 
         return allFiles.stream()
                 .collect(Collectors.groupingBy(file -> file.getType().getName()));
+    }
+
+    public Files getFileByUuid(UUID uuid){
+        return filesRepository.findById(uuid).orElseThrow(() -> new IllegalArgumentException("File not found: " + uuid));
+    }
+
+    /**
+     * Download FILE
+     */
+    public File downloadFile(UUID uuid){
+        Files file = filesRepository.findById(uuid).orElseThrow(
+                () -> new FileNotFoundException("The requested file was not found")
+        );
+
+
+        //TODO: Сделать логику загрузки файла
+        File files;
+        try {
+            files = File.createTempFile("213", "213");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return files;
+
     }
 }

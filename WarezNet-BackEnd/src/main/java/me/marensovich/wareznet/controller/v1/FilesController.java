@@ -4,11 +4,14 @@ import me.marensovich.wareznet.database.models.Files;
 import me.marensovich.wareznet.service.FileService;
 import me.marensovich.wareznet.service.IconService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.UUID;
 
 /**
@@ -77,24 +80,19 @@ public class FilesController {
         return ResponseEntity.status(HttpStatus.OK).body("File successfully saved " + newFile.getId());
     }
 
-//    /**
-//     * Downloads a file by its ID.
-//     *
-//     * @param id the ID of the file
-//     * @return the response entity with the file as a byte array
-//     * @throws FileNotFoundException if the file does not exist
-//     * @since v.0.1
-//     */
-//    @GetMapping("/download/{id}")
-//    public ResponseEntity<byte[]> downloadFile(@PathVariable Integer id) {
-//        Optional<Files> fileOptional = filesRepository.findById(id);
-//
-//        if (fileOptional.isEmpty()) throw new FileNotFoundException("The requested file was not found");
-//
-//        Files file = fileOptional.get();
-//        return ResponseEntity.status(HttpStatus.OK)
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-//                .header(HttpHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE)
-//                .body(file.getFile());
-//    }
+    /**
+     * Downloads a file by its ID.
+     *
+     * @since v.0.1
+     */
+    @GetMapping("/download/{id}")
+    public ResponseEntity<?> downloadFile(@PathVariable UUID uuid) {
+        //TODO: Сделать логику работы
+        File file = fileService.downloadFile(uuid);
+        Files fileDescription = fileService.getFileByUuid(uuid);
+        return ResponseEntity.status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDescription.getDescription().getName() + "\"")
+                .header(HttpHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE)
+                .body(file);
+    }
 }
