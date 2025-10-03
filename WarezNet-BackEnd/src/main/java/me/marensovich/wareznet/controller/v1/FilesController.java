@@ -1,20 +1,14 @@
 package me.marensovich.wareznet.controller.v1;
 
-
 import me.marensovich.wareznet.database.models.Files;
-import me.marensovich.wareznet.exception.exceptions.FileNotFoundException;
 import me.marensovich.wareznet.service.FileService;
 import me.marensovich.wareznet.service.IconService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -23,7 +17,7 @@ import java.util.UUID;
  * <p>This controller provides endpoints for:
  * <ul>
  *     <li>Uploading files</li>
- *     <li>Downloading files by ID</li>
+ *     <li>Retrieving all files grouped by type</li>
  * </ul>
  *
  * @author marensovich
@@ -33,14 +27,31 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/files")
 public class FilesController {
+
     @Autowired private FileService fileService;
     @Autowired private IconService iconService;
 
+    /**
+     * Retrieves all files grouped by their type.
+     *
+     * @return the response entity containing a map where keys are type names and values are lists of files
+     * @since v.0.1
+     */
+    @GetMapping("/get")
+    public ResponseEntity<?> getFile() {
+        return ResponseEntity.status(HttpStatus.OK).body(fileService.getAllFilesGroupedByType());
+    }
 
     /**
      * Uploads a new file and stores it in the database.
      *
-     * @return the response entity containing the file ID or error message
+     * @param typeId      the UUID of the file type
+     * @param categoryId  the UUID of the file category
+     * @param release     the release date/version of the file
+     * @param name        the display name of the file
+     * @param description the file description
+     * @param fileIcon    the file icon image
+     * @return the response entity containing the created file ID
      * @since v.0.1
      */
     @PostMapping("/upload")
@@ -63,7 +74,7 @@ public class FilesController {
                 iconPath
         );
 
-        return ResponseEntity.status(HttpStatus.OK).body("File successfuly saved" + newFile.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("File successfully saved " + newFile.getId());
     }
 
 //    /**
