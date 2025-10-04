@@ -1,32 +1,44 @@
 @import url('__CSS_ASSETS/Fonts.css');
-*{
+
+* {
   background: #000;
   color: #0F0;
   border: 1px solid #00FF00;
   font-family: "AcPlus IBM VGA 8x16";
-  //aspect-ratio: 1;
-
+  /* aspect-ratio: 1; */ /* Закомментировано как в оригинале */
 }
-img {
-  image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
-  image-rendering: -moz-crisp-edges;          /* Firefox                        */
-  image-rendering: -o-crisp-edges;            /* Opera                          */
-  image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
-  image-rendering: pixelated;                 /* Universal support since 2021   */
-  image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
-  -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
 
+img {
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+  image-rendering: optimize-contrast;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Добавлено для вертикального выравнивания */
+  width: 100%; /* Добавлено для полной ширины */
 }
 
 .logo {
   display: flex;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
+  align-items: center; /* Добавлено для выравнивания картинки и текста */
   font-size: 64px;
+  gap: 10px; /* Добавлено расстояние между картинкой и текстом */
 }
-.logo img {
 
+.LogoIMGs {
   width: 64px;
   height: 64px;
+}
 
+.socials {
+  display: flex;
+  align-items: center; /* Добавлено для выравнивания */
+  font-size: 64px;
 }

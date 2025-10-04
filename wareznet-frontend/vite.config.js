@@ -10,7 +10,9 @@ export default defineConfig({
       __PUBLIC: path.resolve(__dirname, 'public'),
       __SRC: path.resolve(__dirname, 'src'),
       __FONTS: path.resolve(__dirname, 'public/fonts'), // <- Now points to the actual directory
+      __IMG: path.resolve(__dirname, 'public/img'), // <- Now points to the actual directory
       __CSS_ASSETS: path.resolve(__dirname, 'src/CSS/ASSET_IMPORT')
+
     }
   }
 })
