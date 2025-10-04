@@ -16,6 +16,14 @@ function App() {
                     </a>
                 </div>
             </header>
+            <content>
+                <nav>
+
+                </nav>
+                <div>
+
+                </div>
+            </content>
         </>
     )
 }
