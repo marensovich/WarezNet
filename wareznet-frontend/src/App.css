@@ -29,7 +29,11 @@ header {
   display: flex;
   align-items: center; /* Добавлено для выравнивания картинки и текста */
   font-size: 64px;
-  gap: 10px; /* Добавлено расстояние между картинкой и текстом */
+  gap: 10px;
+  /* Добавлено расстояние между картинкой и текстом */
+}
+.LogoText {
+  text-decoration: none;
 }
 
 .LogoIMGs {
@@ -41,4 +45,7 @@ header {
   display: flex;
   align-items: center; /* Добавлено для выравнивания */
   font-size: 64px;
+}
+nav {
+  width: 20%;
 }

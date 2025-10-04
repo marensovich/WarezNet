@@ -7,8 +7,10 @@ function App() {
         <>
             <header>
                 <div className="logo"> {/* Исправлено class на className */}
+                    <a className="LogoText" href="https://warez.net">
                     <img className="LogoIMGs" src={WarezNetLogo} alt="WarezNET Logo" /> {/* Добавлен alt */}
-                    <span>WarezNET</span> {/* Текст вынесен в отдельный span */}
+                    <span className="LogoText">WarezNET</span> {/* Текст вынесен в отдельный span */}
+                    </a>
                 </div>
                 <div className="socials"> {/* Исправлено class на className и Socials на socials */}
                     <a href="https://discord.gg/wh53QzXSJa">
@@ -18,7 +20,11 @@ function App() {
             </header>
             <content>
                 <nav>
-
+                    <ul className="NB_Menu">
+                        <li>Softwarez</li>
+                        <li>Operating Systems</li>
+                        <li>Images</li>
+                    </ul>
                 </nav>
                 <div>
 
