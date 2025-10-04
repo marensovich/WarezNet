@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,6 +39,8 @@ public class FileService {
     @Autowired private FileDescriptionRepository fileDescriptionRepository;
     @Autowired private FileTypesRepository fileTypesRepository;
     @Autowired private FileCategoryRepository fileCategoryRepository;
+    @Autowired
+    private StorageService storageService;
 
     /**
      * Retrieves file names mapped to their IDs.
@@ -78,17 +81,21 @@ public class FileService {
      */
     public Files uploadFile(UUID typeId,
                             UUID categoryId,
+                            byte[] data,
                             String release,
                             String name,
                             String description,
                             String fileIcon) {
 
-        //TODO: убрать заглушку, когда появится логика сохранения файлов
-        String path = "";
+
+        UUID uuid = UUID.randomUUID();
+
+        String path = storageService.upload(uuid, data, name);
 
         Files newFile = new Files();
         newFile.setPath(path);
         newFile.setRelease(release);
+        newFile.setId(uuid);
 
         FileTypes type = fileTypesRepository.findById(typeId)
                 .orElseThrow(() -> new IllegalArgumentException("Type not found: " + typeId));
@@ -129,21 +136,24 @@ public class FileService {
     /**
      * Download FILE
      */
-    public File downloadFile(UUID uuid){
-        Files file = filesRepository.findById(uuid).orElseThrow(
+    public File downloadFile(UUID uuid) {
+        Files fileEntity = filesRepository.findById(uuid).orElseThrow(
                 () -> new FileNotFoundException("The requested file was not found")
         );
+        byte[] data = storageService.readFile(uuid);
 
-
-        //TODO: Сделать логику загрузки файла
-        File files;
         try {
-            files = File.createTempFile("213", "213");
+            File tempFile = File.createTempFile(
+                    "download_", "_" + fileEntity.getDescription().getName()
+            );
+            try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+                fos.write(data);
+            }
+
+            return tempFile;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Ошибка при создании временного файла", e);
         }
-
-        return files;
-
     }
+
 }

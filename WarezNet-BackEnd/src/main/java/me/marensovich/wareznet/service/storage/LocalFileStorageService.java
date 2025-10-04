@@ -16,15 +16,19 @@ public class LocalFileStorageService implements FileStorageService {
     private String basePath;
 
     @Override
-    public void saveFile(UUID uuid, byte[] data) {
+    public String saveFile(UUID id, byte[] data, String originalFilename) {
         try {
-            Path path = Paths.get(basePath, String.valueOf(uuid));
-            Files.createDirectories(path.getParent());
-            Files.write(path, data);
+            String safeName = id.toString() + "_" + originalFilename.replace(" ", "-");
+            Path dir = Paths.get(basePath);
+            Files.createDirectories(dir);
+            Path filePath = dir.resolve(safeName);
+            Files.write(filePath, data);
+            return filePath.toAbsolutePath().toString();
         } catch (IOException e) {
             throw new RuntimeException("Ошибка при сохранении файла", e);
         }
     }
+
 
     @Override
     public byte[] readFile(UUID uuid) {

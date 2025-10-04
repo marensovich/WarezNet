@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -64,19 +66,25 @@ public class FilesController {
             @RequestParam("release") String release,
             @RequestParam("name") String name,
             @RequestParam("description") String description,
-            @RequestParam("fileIcon") MultipartFile fileIcon
+            @RequestParam("fileIcon") MultipartFile fileIcon,
+            @RequestParam("fileData") MultipartFile fileData
     ) {
         var iconPath = iconService.uploadIcon(fileIcon);
 
-        Files newFile = fileService.uploadFile(
-                typeId,
-                categoryId,
-                release,
-                name,
-                description,
-                iconPath
-        );
-
+        Files newFile;
+        try {
+            newFile = fileService.uploadFile(
+                    typeId,
+                    categoryId,
+                    fileData.getBytes(),
+                    release,
+                    name,
+                    description,
+                    iconPath
+            );
+        } catch (IOException e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return ResponseEntity.status(HttpStatus.OK).body("File successfully saved " + newFile.getId());
     }
 

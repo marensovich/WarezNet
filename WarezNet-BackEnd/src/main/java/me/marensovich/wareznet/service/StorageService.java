@@ -11,8 +11,8 @@ public class StorageService {
 
     @Autowired private FileStorageService storage;
 
-    public void upload(UUID uuid, byte[] data) {
-        storage.saveFile(uuid, data);
+    public String upload(UUID uuid, byte[] data, String originalFilename) {
+        return storage.saveFile(uuid, data, originalFilename);
     }
 
     public void delete(UUID uuid) {

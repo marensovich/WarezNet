@@ -22,10 +22,23 @@ public class CloudFileStorageService implements FileStorageService {
     }
 
     @Override
-    public void saveFile(UUID uuid, byte[] data) {
-        s3.putObject(PutObjectRequest.builder().bucket(bucketName).key(String.valueOf(uuid)).build(),
-                RequestBody.fromBytes(data));
+    public String saveFile(UUID uuid, byte[] data, String originalFilename) {
+        String key = uuid.toString() + "_" + originalFilename.replace(" ", "-");
+
+        try {
+            s3.putObject(
+                    PutObjectRequest.builder()
+                            .bucket(bucketName)
+                            .key(key)
+                            .build(),
+                    RequestBody.fromBytes(data)
+            );
+            return "s3://" + bucketName + "/" + key;
+        } catch (Exception e) {
+            throw new RuntimeException("Error while saving file to S3", e);
+        }
     }
+
 
     @Override
     public byte[] readFile(UUID uuid) {
@@ -33,7 +46,7 @@ public class CloudFileStorageService implements FileStorageService {
         try (InputStream in = resp) {
             return in.readAllBytes();
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка при чтении файла из облака", e);
+            throw new RuntimeException("Error while reading file from S3", e);
         }
     }
 
