@@ -6,7 +6,7 @@ plugins {
 
 group = 'me.marensovich'
 version = '0.0.1-SNAPSHOT'
-description = 'backendSoft'
+description = 'wareznet-backend'
 
 java {
     toolchain {
